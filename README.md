@@ -8,7 +8,7 @@ Small Swift helper to manage UIKit keyboard on iOS devices.
 
 Basic usage:
 
-```
+```swift
 let keybaord = Typist.shared
 
 func configureKeyboard() {
@@ -18,7 +18,7 @@ func configureKeyboard() {
             print("New Keyboard Frame is \(options.endFrame).")
         }
         .on(event: .didHide) { (options) in
-            sprint("It took \(options.animationDuration) seconds to animate keyboard out.")
+            print("It took \(options.animationDuration) seconds to animate keyboard out.")
         }
         .start()
 
