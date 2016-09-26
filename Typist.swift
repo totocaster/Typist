@@ -1,9 +1,8 @@
 //
 //  Typist.swift
-//  TCKeyboard
+//  Small Swift helper to manage UIKit keyboard on iOS devices.
 //
-//  Created by Toto Tvalavadze on 2016/09/26.
-//  Copyright © 2016 Toto Tvalavadze. All rights reserved.
+//  Created by Toto Tvalavadze on 2016/09/26. MIT Licence.
 //
 
 import UIKit
