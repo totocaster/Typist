@@ -1,5 +1,7 @@
 # Typist
 
+![Swift Version](https://img.shields.io/badge/swift-3.0-orange.svg?style=flat)
+
 Typist is small, drop-in Swift UIKit keyboard manager for iOS apps. It helps you manage keyboard's screen presence and behavior without notification center and Objective-C.
 
 ---
