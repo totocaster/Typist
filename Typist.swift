@@ -97,37 +97,35 @@ public class Typist: NSObject {
         return KeyboardOptions(belongsToCurrentApp: currentApp, startFrame: startFrame, endFrame: endFrame, animationCurve: animationCurve, animationDuration: animationDuration)
     }
     
-}
-
-extension Typist {
-    func keyboardWillShow(note: NSNotification) {
+    // MARK: - UIKit notification handling
+    @objc private func keyboardWillShow(note: NSNotification) {
         if let callback = callbacks[.willShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    func keyboardDidShow(note: NSNotification) {
+    @objc private func keyboardDidShow(note: NSNotification) {
         if let callback = callbacks[.didShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    func keyboardWillHide(note: NSNotification) {
+    @objc private func keyboardWillHide(note: NSNotification) {
         if let callback = callbacks[.willHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    func keyboardDidHide(note: NSNotification) {
+    @objc private func keyboardDidHide(note: NSNotification) {
         if let callback = callbacks[.didHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    func keyboardWillChangeFrame(note: NSNotification) {
+    @objc private func keyboardWillChangeFrame(note: NSNotification) {
         if let callback = callbacks[.willChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    func keyboardDidChangeFrame(note: NSNotification) {
+    @objc private func keyboardDidChangeFrame(note: NSNotification) {
         if let callback = callbacks[.didChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
