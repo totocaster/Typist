@@ -8,11 +8,11 @@
 
 import UIKit
 
-class Typist: NSObject {
+public class Typist: NSObject {
     
-    static let shared = Typist()
+    static public let shared = Typist()
     
-    struct KeyboardOptions {
+    public struct KeyboardOptions {
         /// UIKeyboardIsLocalUserInfoKey: The key for an NSNumber object containing a Boolean that identifies whether the keyboard belongs to the current app. With multitasking on iPad, all visible apps are notified when the keyboard appears and disappears. The value of this key is YES for the app that caused the keyboard to appear and NO for any other apps.
         let belongsToCurrentApp: Bool
         
@@ -30,9 +30,9 @@ class Typist: NSObject {
     }
     
     
-    typealias TypistCallback = (KeyboardOptions) -> ()
+    public typealias TypistCallback = (KeyboardOptions) -> ()
     
-    enum KeyboardEvent {
+    public enum KeyboardEvent {
         case willShow
         case didShow
         case willHide
@@ -41,15 +41,15 @@ class Typist: NSObject {
         case didChangeFrame
     }
     
-    var callbacks: [KeyboardEvent : TypistCallback] = [:]
+    fileprivate var callbacks: [KeyboardEvent : TypistCallback] = [:]
     
-    func on(event: KeyboardEvent, do callback: TypistCallback?) -> Self {
+    public func on(event: KeyboardEvent, do callback: TypistCallback?) -> Self {
         callbacks[event] = callback
         return self
     }
     
-    
-    func start() {
+    public func start() {
+        // TODO: start only notification that are needed (based on what handler are assigned)
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
@@ -62,7 +62,8 @@ class Typist: NSObject {
         
     }
     
-    func stop() {
+    public func stop() {
+        // TODO: this needs a bit more work
         let center = NotificationCenter.default
         center.removeObserver(self)
     }
