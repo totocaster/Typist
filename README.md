@@ -8,7 +8,7 @@ Small Swift helper to manage UIKit keyboard on iOS devices.
 
 Basic usage:
 
-```
+```swift
 let keybaord = Typist.shared
 
 func configureKeyboard() {
