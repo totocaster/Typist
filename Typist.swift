@@ -40,8 +40,6 @@ public class Typist: NSObject {
         case didChangeFrame
     }
     
-    fileprivate var callbacks: [KeyboardEvent : TypistCallback] = [:]
-    
     public func on(event: KeyboardEvent, do callback: TypistCallback?) -> Self {
         callbacks[event] = callback
         return self
@@ -67,7 +65,12 @@ public class Typist: NSObject {
         center.removeObserver(self)
     }
     
-    fileprivate func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
+    
+    // MARK: - How sausages are made
+    
+    private var callbacks: [KeyboardEvent : TypistCallback] = [:]
+    
+    private func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
         var currentApp = false
         if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
             currentApp = value
@@ -97,7 +100,9 @@ public class Typist: NSObject {
         return KeyboardOptions(belongsToCurrentApp: currentApp, startFrame: startFrame, endFrame: endFrame, animationCurve: animationCurve, animationDuration: animationDuration)
     }
     
+    
     // MARK: - UIKit notification handling
+    
     @objc private func keyboardWillShow(note: NSNotification) {
         if let callback = callbacks[.willShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
