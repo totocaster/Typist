@@ -47,7 +47,7 @@ public class Typist: NSObject {
     
     public func start() {
         // TODO: start only notification that are needed (based on what handler are assigned)
-        let center = NotificationCenter.default
+        let center = NotificationCenter.`default`
         center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
         
@@ -71,9 +71,9 @@ public class Typist: NSObject {
     
     // MARK: - How sausages are made
     
-    private var callbacks: [KeyboardEvent : TypistCallback] = [:]
+    internal var callbacks: [KeyboardEvent : TypistCallback] = [:]
     
-    private func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
+    internal func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
         var currentApp = false
         if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
             currentApp = value
@@ -107,34 +107,34 @@ public class Typist: NSObject {
     // MARK: - UIKit notification handling
     
     internal func keyboardWillShow(note: Notification) {
-        if let callback = callbacks[.willShow] {
+        if let callback = self.callbacks[.willShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     internal func keyboardDidShow(note: Notification) {
-        if let callback = callbacks[.didShow] {
+        if let callback = self.callbacks[.didShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
     internal func keyboardWillHide(note: Notification) {
-        if let callback = callbacks[.willHide] {
+        if let callback = self.callbacks[.willHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     internal func keyboardDidHide(note: Notification) {
-        if let callback = callbacks[.didHide] {
+        if let callback = self.callbacks[.didHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
     internal func keyboardWillChangeFrame(note: Notification) {
-        if let callback = callbacks[.willChangeFrame] {
+        if let callback = self.callbacks[.willChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     internal func keyboardDidChangeFrame(note: Notification) {
-        if let callback = callbacks[.didChangeFrame] {
+        if let callback = self.callbacks[.didChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
