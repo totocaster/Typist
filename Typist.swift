@@ -24,8 +24,8 @@ public class Typist: NSObject {
         /// `UIViewAnimationCurve` constant that defines how the keyboard will be animated onto or off the screen.
         let animationCurve: UIViewAnimationCurve
         
-        /// `CGFloat` containing a double that identifies the duration of the animation in seconds.
-        let animationDuration: CGFloat
+        /// `Double` containing a double that identifies the duration of the animation in seconds.
+        let animationDuration: Double
     }
     
     
@@ -95,9 +95,9 @@ public class Typist: NSObject {
             animationCurve = value
         }
         
-        var animationDuration: CGFloat = 0.0
-        if let value = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.floatValue {
-            animationDuration = CGFloat(value)
+        var animationDuration: Double = 0.0
+        if let value = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
+            animationDuration = value
         }
         
         return KeyboardOptions(belongsToCurrentApp: currentApp, startFrame: startFrame, endFrame: endFrame, animationCurve: animationCurve, animationDuration: animationDuration)
