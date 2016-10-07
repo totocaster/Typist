@@ -35,11 +35,11 @@ Download and drop ```Typist.swift``` in your project.
 Delcare what should happen on what event and `start()` listening to keyboard events. That's it.
 
 ```swift
-let keybaord = Typist.shared
+let keyboard = Typist.shared
 
 func configureKeyboard() {
 	
-    keybaord
+    keyboard
         .on(event: .didShow) { (options) in
             print("New Keyboard Frame is \(options.endFrame).")
         }
