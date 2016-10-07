@@ -13,12 +13,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textLabel: UILabel!
     
-    let keybaord = Typist.shared
+    let keyboard = Typist.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        keybaord
+        keyboard
             .on(event: .didShow) { [unowned self] (options) in
                 self.textLabel.text = "New Keyboard Frame is \(options.endFrame)."
             }
