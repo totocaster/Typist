@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/Typist.svg?style=flat)](http://cocoapods.org/pods/Typist)
 
 
-Typist is small, drop-in Swift UIKit keyboard manager for iOS apps. It helps you manage keyboard's screen presence and behavior without notification center and Objective-C.
+Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps. It helps you manage keyboard's screen presence and behavior without notification center and Objective-C.
 
 ---
 
@@ -32,7 +32,7 @@ Download and drop ```Typist.swift``` in your project.
 
 ## Usage
 
-Delcare what should happen on what event and `start()` listening to keyboard events. That's it.
+Declare what should happen on what event and `start()` listening to keyboard events. That's it.
 
 ```swift
 let keyboard = Typist.shared
@@ -51,11 +51,11 @@ func configureKeyboard() {
 }
 ```
 
-Usage of both—singleton, or your own instance of `Typist`—is considered to be OK depending on what do you want to accomplish.
+Usage of both—singleton, or your own instance of `Typist`—is considered to be OK depending on what you want to accomplish.
 
-You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from trigering, but callbacks themselfs won't be dismissed, thus you can resume event callbacks by calling `start()` again.
+You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from triggering, but callbacks themselves won't be dismissed, thus you can resume event callbacks by calling `start()` again.
 
-To removed all event callbacks, call `clear()`. Passing `nil` instead of closure also removes event callback.
+To remove all event callbacks, call `clear()`. Passing `nil` instead of closure also removes event callback.
 
 ### Event Callback Options
 
@@ -81,6 +81,6 @@ Following keyboard events are supported:
 
 If you declare two closures on same event, only latter will be executed. 
 
-## Licence
+## License
 
 Typist is released under the MIT license. See ``LICENSE`` for details.
