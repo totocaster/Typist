@@ -27,6 +27,14 @@ import UIKit
 import Typist
 ```
 
+
+#### Carthage
+Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/Typist.framework` to an iOS project.
+
+```
+github "totocaster/Typist"
+```
+
 #### Manually
 Download and drop ```Typist.swift``` in your project. 
 
