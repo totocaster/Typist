@@ -42,19 +42,19 @@ public class Typist: NSObject {
     /// Inert/immutable objects which carries all data that keyboard has at the event of happening.
     public struct KeyboardOptions {
         /// Identifies whether the keyboard belongs to the current app. With multitasking on iPad, all visible apps are notified when the keyboard appears and disappears. The value of this key is `true` for the app that caused the keyboard to appear and `false` for any other apps.
-        let belongsToCurrentApp: Bool
+        public let belongsToCurrentApp: Bool
         
         /// Identifies the start frame of the keyboard in screen coordinates. These coordinates do not take into account any rotation factors applied to the window’s contents as a result of interface orientation changes. Thus, you may need to convert the rectangle to window coordinates (using the `convertRect:fromWindow:` method) or to view coordinates (using the `convertRect:fromView:` method) before using it.
-        let startFrame: CGRect
+        public let startFrame: CGRect
         
         /// Identifies the end frame of the keyboard in screen coordinates. These coordinates do not take into account any rotation factors applied to the window’s contents as a result of interface orientation changes. Thus, you may need to convert the rectangle to window coordinates (using the `convertRect:fromWindow:` method) or to view coordinates (using the `convertRect:fromView:` method) before using it.
-        let endFrame: CGRect
+        public let endFrame: CGRect
         
         /// Constant that defines how the keyboard will be animated onto or off the screen.
-        let animationCurve: UIViewAnimationCurve
+        public let animationCurve: UIViewAnimationCurve
         
         /// Identifies the duration of the animation in seconds.
-        let animationDuration: Double
+        public let animationDuration: Double
     }
     
     /// TypistCallback
