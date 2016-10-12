@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Typist"
-  s.version      = "0.3.1"
+  s.version      = "0.3.2"
   s.summary      = "Small Swift UIKit keyboard manager for iOS apps."
 
   s.description  = <<-DESC
@@ -16,10 +16,9 @@ Pod::Spec.new do |s|
   s.author             = { "Toto Tvalavadze" => "totocaster@me.com" }
   s.social_media_url   = "http://twitter.com/totocaster"
 
-  s.platform     = :ios
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "9.0"
 
-  s.source       = { :git => "https://github.com/totocaster/Typist.git", :tag => "0.3.1" }
+  s.source       = { :git => "https://github.com/totocaster/Typist.git", :tag => "0.3.2" }
 
   s.source_files = 'Typist.swift'
   s.framework    = 'UIKit'
