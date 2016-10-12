@@ -60,11 +60,11 @@ func configureKeyboard() {
 }
 ```
 
-Usage of both—singleton, or your own instance of `Typist`—is considered to be OK depending on what you want to accomplish.
+Usage of both—`shared` singleton, or your own instance of `Typist`—is considered to be OK depending on what you want to accomplish.
 
 You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from triggering, but callbacks themselves won't be dismissed, thus you can resume event callbacks by calling `start()` again.
 
-To remove all event callbacks, call `clear()`. Passing `nil` instead of closure also removes event callback.
+To remove all event callbacks, call `clear()`. 
 
 ### Event Callback Options
 
