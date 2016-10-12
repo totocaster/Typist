@@ -16,7 +16,7 @@ Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps. It helps y
 You can use [CocoaPods](http://cocoapods.org/) to install `Typist` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '10.0'
+platform :ios, '9.0'
 use_frameworks!
 pod 'Typist'
 ```
@@ -37,7 +37,7 @@ github "totocaster/Typist"
 ```
 
 #### Manually
-Download and drop ```Typist.swift``` in your project. 
+Download and drop ```Typist.swift``` in your project.
 
 ## Usage
 
@@ -47,7 +47,7 @@ Declare what should happen on what event and `start()` listening to keyboard eve
 let keyboard = Typist.shared
 
 func configureKeyboard() {
-	
+
     keyboard
         .on(event: .didShow) { (options) in
             print("New Keyboard Frame is \(options.endFrame).")
@@ -64,7 +64,7 @@ Usage of both—`shared` singleton, or your own instance of `Typist`—is consid
 
 You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from triggering, but callbacks themselves won't be dismissed, thus you can resume event callbacks by calling `start()` again.
 
-To remove all event callbacks, call `clear()`. 
+To remove all event callbacks, call `clear()`.
 
 ### Event Callback Options
 
@@ -88,7 +88,7 @@ Following keyboard events are supported:
 * `willChangeFrame`
 * `didChangeFrame`
 
-If you declare two closures on same event, only latter will be executed. 
+If you declare two closures on same event, only latter will be executed.
 
 ## License
 
