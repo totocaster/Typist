@@ -94,16 +94,11 @@ public class Typist: NSObject {
     
     /// Starts listening to events and calling corresponding events handlers.
     public func start() {
-        // TODO: start only notification that are needed (based on what handler are assigned)
         let center = NotificationCenter.`default`
-        center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
         
-        center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
-        
-        center.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: .UIKeyboardWillChangeFrame, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidChangeFrame), name: .UIKeyboardDidChangeFrame, object: nil)
+        for event in callbacks.keys {
+            center.addObserver(self, selector: event.selector, name: event.notification, object: nil)
+        }
     }
     
     /// Stops listening to keyboard events. Callback closures won't be cleared, thus calling `start()` again will resume calling previously set event handlers.
@@ -185,6 +180,46 @@ public class Typist: NSObject {
     internal func keyboardDidChangeFrame(note: Notification) {
         if let callback = callbacks[.didChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        }
+    }
+}
+
+fileprivate extension Typist.KeyboardEvent {
+    var notification: NSNotification.Name {
+        get {
+            switch self {
+            case .willShow:
+                return .UIKeyboardWillShow
+            case .didShow:
+                return .UIKeyboardDidShow
+            case .willHide:
+                return .UIKeyboardWillHide
+            case .didHide:
+                return .UIKeyboardDidHide
+            case .willChangeFrame:
+                return .UIKeyboardWillChangeFrame
+            case .didChangeFrame:
+                return .UIKeyboardDidChangeFrame
+            }
+        }
+    }
+    
+    var selector: Selector {
+        get {
+            switch self {
+            case .willShow:
+                return #selector(Typist.keyboardWillShow(note:))
+            case .didShow:
+                return #selector(Typist.keyboardDidShow(note:))
+            case .willHide:
+                return #selector(Typist.keyboardWillHide(note:))
+            case .didHide:
+                return #selector(Typist.keyboardDidHide(note:))
+            case .willChangeFrame:
+                return #selector(Typist.keyboardWillChangeFrame(note:))
+            case .didChangeFrame:
+                return #selector(Typist.keyboardDidChangeFrame(note:))
+            }
         }
     }
 }
