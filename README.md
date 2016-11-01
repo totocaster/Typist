@@ -16,7 +16,7 @@ Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps. It helps y
 You can use [CocoaPods](http://cocoapods.org/) to install `Typist` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '9.0'
+platform :ios, '8.0'
 use_frameworks!
 pod 'Typist'
 ```
