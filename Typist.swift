@@ -123,6 +123,8 @@ public class Typist: NSObject {
             if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
                 currentApp = value
             }
+        } else {
+            currentApp = true
         }
         
         var endFrame = CGRect()
