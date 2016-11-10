@@ -10,7 +10,7 @@ import UIKit
 /**
  Typist is small, drop-in Swift UIKit keyboard manager for iOS apps. It helps you manage keyboard's screen presence and behavior without notification center and Objective-C.
  
- Declare what should happen on what event and using `on(event:do:)` and  `start()` listening to keyboard events. Like so:
+ Declare what should happen on what event and `start()` listening to keyboard events. Like so:
  
  ```
  let keyboard = Typist.shared
@@ -27,11 +27,11 @@ import UIKit
 }
 ```
  
- Usage of both—singleton, or your own instance of `Typist()`—is considered to be OK depending on what do you want to accomplish.
+ Usage of both—`shared` singleton, or your own instance of `Typist`—is considered to be OK depending on what you want to accomplish. However, **do not use singleton** when two or more objects (`UIViewController`s, most likely) using `Typist.shared` are presented on screen simultaneously. This will cause one of the controllers to fail at receiving keyboard events.
  
- You must call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from triggering, but callbacks themselfs won't be dismissed, thus you can resume event callbacks by calling `start()` again.
+ You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on instance will stop callbacks from triggering, but callbacks themselves won't be dismissed, thus you can resume event callbacks by calling `start()` again.
  
- To removed all event callbacks, call `clear()`. Passing `nil` instead of closure also removes event callback.
+ To remove all event callbacks, call `clear()`.
  */
 public class Typist: NSObject {
     
