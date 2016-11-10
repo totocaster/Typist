@@ -118,13 +118,11 @@ public class Typist: NSObject {
     internal var callbacks: [KeyboardEvent : TypistCallback] = [:]
     
     internal func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
-        var currentApp = false
+        var currentApp = true
         if #available(iOS 9.0, *) {
             if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
                 currentApp = value
             }
-        } else {
-            currentApp = true
         }
         
         var endFrame = CGRect()
