@@ -1,9 +1,10 @@
 # Typist
 
 ![Swift Version](https://img.shields.io/badge/swift-3.0-orange.svg?style=flat)
+[![Platform](https://img.shields.io/cocoapods/p/Typist.svg?style=flat)](http://cocoapods.org/pods/Typist)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Typist.svg)](https://img.shields.io/cocoapods/v/Typist.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/totocaster/Typist)
-[![Platform](https://img.shields.io/cocoapods/p/Typist.svg?style=flat)](http://cocoapods.org/pods/Typist)
+[![Twitter](https://img.shields.io/badge/twitter-@totocaster-blue.svg)](http://twitter.com/totocaster)
 
 
 Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps. It helps you manage keyboard's screen presence and behavior without notification center and Objective-C.
