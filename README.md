@@ -11,36 +11,6 @@ Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps. It helps y
 
 ---
 
-## Installation
-
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `Typist` by adding it to your `Podfile`:
-
-```ruby
-platform :ios, '8.0'
-use_frameworks!
-pod 'Typist'
-```
-
-Import `Typist` wherever you plan to listen to keyboard events. Usually in your `UIViewController` subclasses.
-
-``` swift
-import UIKit
-import Typist
-```
-
-
-#### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/Typist.framework` to an iOS project.
-
-```
-github "totocaster/Typist"
-```
-
-#### Manually
-Download and drop ```Typist.swift``` in your project.
-
-
 ## Usage
 
 Declare what should happen on what event and `start()` listening to keyboard events. That's it.
@@ -93,6 +63,39 @@ Following keyboard events are supported:
 * `didChangeFrame`
 
 If you declare two closures on same event, only latter will be executed.
+
+---
+
+## Installation
+
+#### CocoaPods
+You can use [CocoaPods](http://cocoapods.org/) to install `Typist` by adding it to your `Podfile`:
+
+```ruby
+platform :ios, '8.0'
+use_frameworks!
+pod 'Typist'
+```
+
+Import `Typist` wherever you plan to listen to keyboard events. Usually in your `UIViewController` subclasses.
+
+``` swift
+import UIKit
+import Typist
+```
+
+
+#### Carthage
+Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/Typist.framework` to an iOS project.
+
+```
+github "totocaster/Typist"
+```
+
+#### Manually
+Download and drop ```Typist.swift``` in your project.
+
+---
 
 ## License
 
