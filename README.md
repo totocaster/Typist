@@ -50,7 +50,6 @@ Every event callback has a parameter of `Typist.KeyboardOptions` type. It is an 
 * **`animationCurve`** — `UIViewAnimationCurve` constant that defines how the keyboard will be animated onto or off the screen.
 * **`animationDuration`** — `Double` that identifies the duration of the animation in seconds.
 
-
 ### Events
 
 Following keyboard events are supported:
@@ -94,6 +93,11 @@ github "totocaster/Typist"
 
 #### Manually
 Download and drop ```Typist.swift``` in your project.
+
+---
+
+My thanks to [Jake Marsh](https://twitter.com/jakemarsh) for featuring Typist on Little Bites of Cocoa [#282: Taming the Keyboard with Typist ⌨️](https://littlebitesofcocoa.com/282-taming-the-keyboard-with-typist). It made my day.
+
 
 ---
 
