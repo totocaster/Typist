@@ -82,7 +82,7 @@ public class Typist: NSObject {
         case didChangeFrame
     }
     
-    /// Declares Typist behavior. Pass a closure parameter and event to bind those two. Without calling `start()` none of the closures will be executed.
+    /// Declares Typist behavior. Pass a closure parameter and event to mind those two. Without calling `start()` none of the closures will be executed.
     ///
     /// - parameter event: Event on which callback should be executed.
     /// - parameter do: Closure of code which will be executed on keyboard `event`.
@@ -103,11 +103,12 @@ public class Typist: NSObject {
     
     /// Stops listening to keyboard events. Callback closures won't be cleared, thus calling `start()` again will resume calling previously set event handlers.
     public func stop() {
+        // TODO: this needs a bit more work
         let center = NotificationCenter.default
         center.removeObserver(self)
     }
     
-    /// Clears all event handlers.
+    /// Clears all event handlers. Equivalent of setting `nil` for all events.
     public func clear() {
         callbacks.removeAll()
     }
@@ -151,34 +152,34 @@ public class Typist: NSObject {
     
     // MARK: - UIKit notification handling
     
-    internal func keyboardWillShow(note: Notification) {
+    @objc internal func keyboardWillShow(note: Notification) {
         if let callback = callbacks[.willShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidShow(note: Notification) {
+    @objc internal func keyboardDidShow(note: Notification) {
         if let callback = callbacks[.didShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    internal func keyboardWillHide(note: Notification) {
+    @objc internal func keyboardWillHide(note: Notification) {
         if let callback = callbacks[.willHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidHide(note: Notification) {
+    @objc internal func keyboardDidHide(note: Notification) {
         if let callback = callbacks[.didHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    internal func keyboardWillChangeFrame(note: Notification) {
+    @objc internal func keyboardWillChangeFrame(note: Notification) {
         if let callback = callbacks[.willChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidChangeFrame(note: Notification) {
+    @objc internal func keyboardDidChangeFrame(note: Notification) {
         if let callback = callbacks[.didChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
