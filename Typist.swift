@@ -151,34 +151,34 @@ public class Typist: NSObject {
     
     // MARK: - UIKit notification handling
     
-    internal func keyboardWillShow(note: Notification) {
+    @objc internal func keyboardWillShow(note: Notification) {
         if let callback = callbacks[.willShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidShow(note: Notification) {
+    @objc internal func keyboardDidShow(note: Notification) {
         if let callback = callbacks[.didShow] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    internal func keyboardWillHide(note: Notification) {
+    @objc internal func keyboardWillHide(note: Notification) {
         if let callback = callbacks[.willHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidHide(note: Notification) {
+    @objc internal func keyboardDidHide(note: Notification) {
         if let callback = callbacks[.didHide] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
     
-    internal func keyboardWillChangeFrame(note: Notification) {
+    @objc internal func keyboardWillChangeFrame(note: Notification) {
         if let callback = callbacks[.willChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
-    internal func keyboardDidChangeFrame(note: Notification) {
+    @objc internal func keyboardDidChangeFrame(note: Notification) {
         if let callback = callbacks[.didChangeFrame] {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
