@@ -82,7 +82,7 @@ public class Typist: NSObject {
         case didChangeFrame
     }
     
-    /// Declares Typist behavior. Pass a closure parameter and event to mind those two. Without calling `start()` none of the closures will be executed.
+    /// Declares Typist behavior. Pass a closure parameter and event to bind those two. Without calling `start()` none of the closures will be executed.
     ///
     /// - parameter event: Event on which callback should be executed.
     /// - parameter do: Closure of code which will be executed on keyboard `event`.
