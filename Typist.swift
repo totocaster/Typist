@@ -80,6 +80,9 @@ public class Typist: NSObject {
         
         /// Event raised by UIKit's `.UIKeyboardDidChangeFrame`.
         case didChangeFrame
+
+        /// TODO
+        // case didPan
     }
     
     /// Declares Typist behavior. Pass a closure parameter and event to bind those two. Without calling `start()` none of the closures will be executed.
@@ -99,6 +102,10 @@ public class Typist: NSObject {
         for event in callbacks.keys {
             center.addObserver(self, selector: event.selector, name: event.notification, object: nil)
         }
+        
+        panGesture.delegate = self
+        panGesture.addTarget(self, action: #selector(keyboardDidPan))
+        UIApplication.shared.windows.first?.addGestureRecognizer(panGesture)
     }
     
     /// Stops listening to keyboard events. Callback closures won't be cleared, thus calling `start()` again will resume calling previously set event handlers.
@@ -184,6 +191,25 @@ public class Typist: NSObject {
             callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
         }
     }
+    
+    // TESTING OUT Pan Gesture
+    let panGesture = UIPanGestureRecognizer()
+    var frame: CGRect = .zero
+    @objc internal func keyboardDidPan(recognizer: UIPanGestureRecognizer) {
+//        if let callback = callbacks[.didPan] {
+//
+//        }
+                
+        guard case .changed = recognizer.state,
+            let window = UIApplication.shared.windows.first,
+            frame.origin.y < UIScreen.main.bounds.height
+        else { return }
+        
+        print(frame)
+        
+        let origin = recognizer.location(in: window)
+        frame.origin.y = max(origin.y, UIScreen.main.bounds.height - frame.height)
+    }
 }
 
 fileprivate extension Typist.KeyboardEvent {
@@ -225,3 +251,36 @@ fileprivate extension Typist.KeyboardEvent {
         }
     }
 }
+
+extension Typist: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        let point = touch.location(in: gestureRecognizer.view)
+        var view = gestureRecognizer.view?.hitTest(point, with: nil)
+        while let candidate = view {
+            if
+                let scrollView = candidate as? UIScrollView,
+                case .interactive = scrollView.keyboardDismissMode
+            {
+                return true
+            }
+            view = candidate.superview
+        }
+        return false
+    }
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer === panGesture
+    }
+    
+}
+
+//extension UIScrollView {
+//
+//    // add something to handle panning
+//    var panningScrollView: UIScrollView {
+//        self.panningScrollView.panGestureRecognizer.addTarget(self, action: #selector(handlePanGestureRecognizer))
+//    }
+//
+//}
+
