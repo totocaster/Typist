@@ -102,10 +102,6 @@ public class Typist: NSObject {
         for event in callbacks.keys {
             center.addObserver(self, selector: event.selector, name: event.notification, object: nil)
         }
-        
-        panGesture.delegate = self
-        panGesture.addTarget(self, action: #selector(keyboardDidPan))
-        UIApplication.shared.windows.first?.addGestureRecognizer(panGesture)
     }
     
     /// Stops listening to keyboard events. Callback closures won't be cleared, thus calling `start()` again will resume calling previously set event handlers.
@@ -192,23 +188,38 @@ public class Typist: NSObject {
         }
     }
     
+    open var inputAccessoryView: UIView? {
+        didSet {
+            guard let view = inputAccessoryView else { return }
+            let recognizer = UIPanGestureRecognizer(target: self, action: #selector(keyboardDidPan))
+//            recognizer.delegate = self
+            view.addGestureRecognizer(recognizer)
+            panGesture = recognizer
+        }
+    }
+    
+    var panGesture: UIPanGestureRecognizer?
+    
     // TESTING OUT Pan Gesture
-    let panGesture = UIPanGestureRecognizer()
     var frame: CGRect = .zero
+    // keyboardDidPan
+    // handlePanGestureRecognizer
     @objc internal func keyboardDidPan(recognizer: UIPanGestureRecognizer) {
+        print("----->")
+        
 //        if let callback = callbacks[.didPan] {
 //
 //        }
                 
-        guard case .changed = recognizer.state,
-            let window = UIApplication.shared.windows.first,
-            frame.origin.y < UIScreen.main.bounds.height
-        else { return }
-        
-        print(frame)
-        
-        let origin = recognizer.location(in: window)
-        frame.origin.y = max(origin.y, UIScreen.main.bounds.height - frame.height)
+//        guard case .changed = recognizer.state,
+//            let window = UIApplication.shared.windows.first,
+//            frame.origin.y < UIScreen.main.bounds.height
+//        else { return }
+//
+//        print(frame)
+//
+//        let origin = recognizer.location(in: window)
+//        frame.origin.y = max(origin.y, UIScreen.main.bounds.height - frame.height)
     }
 }
 
@@ -252,28 +263,13 @@ fileprivate extension Typist.KeyboardEvent {
     }
 }
 
-extension Typist: UIGestureRecognizerDelegate {
-    
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        let point = touch.location(in: gestureRecognizer.view)
-        var view = gestureRecognizer.view?.hitTest(point, with: nil)
-        while let candidate = view {
-            if
-                let scrollView = candidate as? UIScrollView,
-                case .interactive = scrollView.keyboardDismissMode
-            {
-                return true
-            }
-            view = candidate.superview
-        }
-        return false
-    }
-    
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer === panGesture
-    }
-    
-}
+//extension Typist: UIGestureRecognizerDelegate {
+//
+//    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+//        return gestureRecognizer === panGesture
+//    }
+//
+//}
 
 //extension UIScrollView {
 //
@@ -283,4 +279,3 @@ extension Typist: UIGestureRecognizerDelegate {
 //    }
 //
 //}
-
