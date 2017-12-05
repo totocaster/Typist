@@ -30,28 +30,23 @@ class ViewController: UIViewController {
         // TODO: add keyboard toolbar handler
         
         keyboard.on(event: .willChangeFrame) { [unowned self] options in
-            print("will")
-            print(options.startFrame)
-            print(options.endFrame)
-//            self.bottom.constant = UIScreen.main.bounds.height - options.endFrame.origin.y
-//            UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
-//                self.view.layoutIfNeeded()
-//            }, completion: nil)
+            self.bottom.constant = UIScreen.main.bounds.height - options.endFrame.origin.y
+            UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
         }.on(event: .didChangeFrame) { [unowned self] options in
-            print("did")
-            print(options.startFrame)
-            print(options.endFrame)
-//            self.bottom.constant = UIScreen.main.bounds.height - options.endFrame.origin.y
-//            UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
-//                self.view.layoutIfNeeded()
-//            }, completion: nil)
-            }.on(event: .willHide) { [unowned self] options in
-                print("will")
-                print(options.startFrame)
-                print(options.endFrame)
+            
         }.start()
         
-        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
+        keyboard.frameChanged = { [unowned self] frame in
+            self.bottom.constant = UIScreen.main.bounds.height - frame.origin.y
+            UIView.animate(withDuration: 0) {
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+//        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
+        keyboard.scrollView = tableView
         
 //        keyboard.on(event: .didShow) { [unowned self] options in
 //            self.bottom.constant = options.endFrame.height
@@ -75,3 +70,16 @@ extension ViewController: UITableViewDataSource {
     }
     
 }
+
+//extension ViewController: UIScrollViewDelegate {
+//
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let location = scrollView.panGestureRecognizer.location(in: scrollView)
+//        let absoluteLocation = scrollView.convert(location, to: self.view)
+//        if scrollView.panGestureRecognizer.state == .changed {
+//            print(UIScreen.main.bounds.height - absoluteLocation.y)
+//        }
+//    }
+//
+//}
+
