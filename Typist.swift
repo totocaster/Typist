@@ -80,9 +80,6 @@ public class Typist: NSObject {
         
         /// Event raised by UIKit's `.UIKeyboardDidChangeFrame`.
         case didChangeFrame
-
-        /// TODO
-        // case didPan
     }
     
     /// Declares Typist behavior. Pass a closure parameter and event to bind those two. Without calling `start()` none of the closures will be executed.
@@ -156,38 +153,26 @@ public class Typist: NSObject {
     // MARK: - UIKit notification handling
     
     @objc internal func keyboardWillShow(note: Notification) {
-        if let callback = callbacks[.willShow] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.willShow]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     @objc internal func keyboardDidShow(note: Notification) {
-        if let callback = callbacks[.didShow] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.didShow]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     
     @objc internal func keyboardWillHide(note: Notification) {
-        if let callback = callbacks[.willHide] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.willHide]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     @objc internal func keyboardDidHide(note: Notification) {
-        if let callback = callbacks[.didHide] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.didHide]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     
     @objc internal func keyboardWillChangeFrame(note: Notification) {
-        if let callback = callbacks[.willChangeFrame] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
-        frame = keyboardOptions(fromNotificationDictionary: note.userInfo).endFrame
-        print(frame)
+        callbacks[.willChangeFrame]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        _options = keyboardOptions(fromNotificationDictionary: note.userInfo)
     }
     @objc internal func keyboardDidChangeFrame(note: Notification) {
-        if let callback = callbacks[.didChangeFrame] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.didChangeFrame]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        _options = keyboardOptions(fromNotificationDictionary: note.userInfo)
     }
     
 //    open var inputAccessoryView: UIView? {
@@ -205,21 +190,22 @@ public class Typist: NSObject {
         }
     }
     
+    var _options: KeyboardOptions!
     var panGesture: UIPanGestureRecognizer?
-    var frame: CGRect = .zero
-    open var frameChanged: ((CGRect) -> ())?
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
             case .changed = recognizer.state,
             let window = UIApplication.shared.windows.first,
-            frame.origin.y < UIScreen.main.bounds.height
+            _options.endFrame.origin.y < UIScreen.main.bounds.height
         else { return }
         
         let location = recognizer.location(in: scrollView)
         let absoluteLocation = scrollView.convert(location, to: window)
-        var newFrame = frame
-        newFrame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
-        frameChanged?(newFrame)
+        var frame = _options.endFrame
+        frame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
+        let event = KeyboardOptions(belongsToCurrentApp: _options.belongsToCurrentApp, startFrame: _options.startFrame, endFrame: frame, animationCurve: _options.animationCurve, animationDuration: _options.animationDuration)
+        callbacks[.willChangeFrame]?(event)
+        callbacks[.didChangeFrame]?(event)
     }
 }
 

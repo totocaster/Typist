@@ -34,21 +34,14 @@ class ViewController: UIViewController {
         // starts frame observer
         keyboard.on(event: .willChangeFrame) { [unowned self] options in
             let height = UIScreen.main.bounds.height - options.endFrame.origin.y
-            self.bottom.constant = max(0, height - self.textField.inputAccessoryView!.frame.height)
-            UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
-                self.tableView.contentInset.bottom = height
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-        }.start()
-        
-        keyboard.frameChanged = { [unowned self] frame in
-            let height = UIScreen.main.bounds.height - frame.origin.y
-            self.bottom.constant = max(0, height - self.textField.inputAccessoryView!.frame.height)
+            self.bottom.constant = max(0, height - self.toolbar.bounds.height)
+//            UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
             UIView.animate(withDuration: 0) {
-                self.tableView.contentInset.bottom = height
+                self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
+                self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
                 self.view.layoutIfNeeded()
             }
-        }
+        }.start()
     }
     
 }
