@@ -28,25 +28,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // TODO: add keyboard toolbar handler
+        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
+        keyboard.scrollView = tableView
         
+        // starts frame observer
         keyboard.on(event: .willChangeFrame) { [unowned self] options in
-            self.bottom.constant = UIScreen.main.bounds.height - options.endFrame.origin.y
+            let height = UIScreen.main.bounds.height - options.endFrame.origin.y
+            self.bottom.constant = max(0, height - self.textField.inputAccessoryView!.frame.height)
             UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
+                self.tableView.contentInset.bottom = height
                 self.view.layoutIfNeeded()
             }, completion: nil)
-        }.on(event: .didChangeFrame) { [unowned self] options in
-            
         }.start()
         
         keyboard.frameChanged = { [unowned self] frame in
-            self.bottom.constant = UIScreen.main.bounds.height - frame.origin.y
+            let height = UIScreen.main.bounds.height - frame.origin.y
+            self.bottom.constant = max(0, height - self.textField.inputAccessoryView!.frame.height)
             UIView.animate(withDuration: 0) {
+                self.tableView.contentInset.bottom = height
                 self.view.layoutIfNeeded()
             }
         }
-        
-        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
-        keyboard.scrollView = tableView
     }
     
 }
@@ -64,15 +66,3 @@ extension ViewController: UITableViewDataSource {
     }
     
 }
-
-//extension ViewController: UIScrollViewDelegate {
-//
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let location = scrollView.panGestureRecognizer.location(in: scrollView)
-//        let absoluteLocation = scrollView.convert(location, to: self.view)
-//        if scrollView.panGestureRecognizer.state == .changed {
-//            print(UIScreen.main.bounds.height - absoluteLocation.y)
-//        }
-//    }
-//
-//}

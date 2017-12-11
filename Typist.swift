@@ -205,8 +205,6 @@ public class Typist: NSObject {
         }
     }
     
-    
-    
     var panGesture: UIPanGestureRecognizer?
     var frame: CGRect = .zero
     open var frameChanged: ((CGRect) -> ())?
