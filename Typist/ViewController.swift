@@ -45,14 +45,8 @@ class ViewController: UIViewController {
             }
         }
         
-//        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
+        textField.inputAccessoryView = UIView(frame: toolbar.bounds)
         keyboard.scrollView = tableView
-        
-//        keyboard.on(event: .didShow) { [unowned self] options in
-//            self.bottom.constant = options.endFrame.height
-//        }.on(event: .didHide) { [unowned self] options in
-//            self.bottom.constant = 0
-//        }.start()
     }
     
 }
@@ -82,4 +76,3 @@ extension ViewController: UITableViewDataSource {
 //    }
 //
 //}
-

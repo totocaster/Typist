@@ -198,33 +198,27 @@ public class Typist: NSObject {
     
     open var scrollView: UIScrollView! {
         didSet {
-            let recognizer = UIPanGestureRecognizer(target: self, action: #selector(keyboardDidPan))
+            let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
             recognizer.delegate = self
             scrollView.addGestureRecognizer(recognizer)
-//            UIApplication.shared.windows.first?.addGestureRecognizer(panGesture)
             panGesture = recognizer
         }
     }
     
+    
+    
     var panGesture: UIPanGestureRecognizer?
-    
-    open var frameChanged: ((CGRect) -> ())?
-    
-    // TESTING OUT Pan Gesture
     var frame: CGRect = .zero
-    // keyboardDidPan
-    // handlePanGestureRecognizer
-    @objc internal func keyboardDidPan(recognizer: UIPanGestureRecognizer) {
+    open var frameChanged: ((CGRect) -> ())?
+    @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
             case .changed = recognizer.state,
+            let window = UIApplication.shared.windows.first,
             frame.origin.y < UIScreen.main.bounds.height
         else { return }
         
-        guard let window = UIApplication.shared.windows.first else { return }
-        
         let location = recognizer.location(in: scrollView)
         let absoluteLocation = scrollView.convert(location, to: window)
-        print(absoluteLocation.y)
         var newFrame = frame
         newFrame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
         frameChanged?(newFrame)
@@ -273,24 +267,12 @@ fileprivate extension Typist.KeyboardEvent {
 
 extension Typist: UIGestureRecognizerDelegate {
     
-//    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-//        if case .interactive = scrollView.keyboardDismissMode {
-//            return true
-//        }
-//        return false
-//    }
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return scrollView.keyboardDismissMode == .interactive
+    }
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer === panGesture
     }
     
 }
-
-//extension UIScrollView {
-//
-//    // add something to handle panning
-//    var panningScrollView: UIScrollView {
-//        self.panningScrollView.panGestureRecognizer.addTarget(self, action: #selector(handlePanGestureRecognizer))
-//    }
-//
-//}
