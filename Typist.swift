@@ -175,41 +175,38 @@ public class Typist: NSObject {
         _options = keyboardOptions(fromNotificationDictionary: note.userInfo)
     }
     
-//    open var inputAccessoryView: UIView? {
-//        didSet {
-//            guard let view = inputAccessoryView else { return }
-//        }
-//    }
+    // MARK: - Input Accessory View Support
     
-    open var scrollView: UIScrollView! {
+    open var scrollView: UIScrollView? {
         didSet {
-            let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
-            recognizer.delegate = self
-            scrollView.addGestureRecognizer(recognizer)
-            panGesture = recognizer
+            scrollView?.addGestureRecognizer(panGesture)
         }
     }
-    
-    var _options: KeyboardOptions!
-    var panGesture: UIPanGestureRecognizer?
+    private var _options: KeyboardOptions?
+    private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
+        recognizer.delegate = self
+        return recognizer
+    }()
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
+            let options = _options,
             case .changed = recognizer.state,
-            let window = UIApplication.shared.windows.first,
-            _options.endFrame.origin.y < UIScreen.main.bounds.height
+            let view = recognizer.view,
+            let window = UIApplication.shared.windows.first
         else { return }
         
-        let location = recognizer.location(in: scrollView)
-        let absoluteLocation = scrollView.convert(location, to: window)
-        var frame = _options.endFrame
+        let location = recognizer.location(in: view)
+        let absoluteLocation = view.convert(location, to: window)
+        var frame = options.endFrame
         frame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
-        let event = KeyboardOptions(belongsToCurrentApp: _options.belongsToCurrentApp, startFrame: _options.startFrame, endFrame: frame, animationCurve: _options.animationCurve, animationDuration: _options.animationDuration)
+        let event = KeyboardOptions(belongsToCurrentApp: options.belongsToCurrentApp, startFrame: options.startFrame, endFrame: frame, animationCurve: options.animationCurve, animationDuration: options.animationDuration)
         callbacks[.willChangeFrame]?(event)
         callbacks[.didChangeFrame]?(event)
     }
 }
 
-fileprivate extension Typist.KeyboardEvent {
+private extension Typist.KeyboardEvent {
     var notification: NSNotification.Name {
         get {
             switch self {
@@ -252,7 +249,7 @@ fileprivate extension Typist.KeyboardEvent {
 extension Typist: UIGestureRecognizerDelegate {
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return scrollView.keyboardDismissMode == .interactive
+        return scrollView?.keyboardDismissMode == .interactive
     }
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
