@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         
         // keyboard frame observer
         keyboard.toolbar(scrollView: tableView).on(event: .willChangeFrame) { [unowned self] options in
-            let height = UIScreen.main.bounds.height - options.endFrame.origin.y
+            let height = options.endFrame.height
             self.bottom.constant = max(0, height - self.toolbar.bounds.height)
             UIView.animate(withDuration: 0) {
                 self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)

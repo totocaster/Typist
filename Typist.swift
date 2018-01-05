@@ -177,22 +177,22 @@ public class Typist: NSObject {
     
     // MARK: - Input Accessory View Support
     
-    open var scrollView: UIScrollView? {
+    private var scrollView: UIScrollView? {
         didSet {
             scrollView?.keyboardDismissMode = .interactive // allows dismissing keyboard interactively
             scrollView?.addGestureRecognizer(panGesture)
         }
     }
-    public func toolbar(scrollView: UIScrollView) -> Self {
-        self.scrollView = scrollView
-        return self
-    }
-    private var _options: KeyboardOptions?
     private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
         recognizer.delegate = self
         return recognizer
     }()
+    private var _options: KeyboardOptions?
+    public func toolbar(scrollView: UIScrollView) -> Self {
+        self.scrollView = scrollView
+        return self
+    }
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
             let options = _options,
@@ -205,6 +205,7 @@ public class Typist: NSObject {
         let absoluteLocation = view.convert(location, to: window)
         var frame = options.endFrame
         frame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
+        frame.size.height = UIScreen.main.bounds.height - frame.origin.y
         let event = KeyboardOptions(belongsToCurrentApp: options.belongsToCurrentApp, startFrame: options.startFrame, endFrame: frame, animationCurve: options.animationCurve, animationDuration: options.animationDuration)
         callbacks[.willChangeFrame]?(event)
         callbacks[.didChangeFrame]?(event)
