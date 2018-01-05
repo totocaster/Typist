@@ -16,7 +16,6 @@ class ViewController: UIViewController {
         didSet {
             tableView.tableHeaderView = UIView()
             tableView.tableFooterView = UIView()
-            tableView.keyboardDismissMode = .interactive // allows dismissing keyboard interactively
         }
     }
     
@@ -29,10 +28,9 @@ class ViewController: UIViewController {
         
         // keyboard input accessory view support
         textField.inputAccessoryView = UIView(frame: toolbar.bounds)
-        keyboard.scrollView = tableView
         
         // keyboard frame observer
-        keyboard.on(event: .willChangeFrame) { [unowned self] options in
+        keyboard.toolbar(scrollView: tableView).on(event: .willChangeFrame) { [unowned self] options in
             let height = UIScreen.main.bounds.height - options.endFrame.origin.y
             self.bottom.constant = max(0, height - self.toolbar.bounds.height)
             UIView.animate(withDuration: 0) {

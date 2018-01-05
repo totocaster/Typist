@@ -179,8 +179,13 @@ public class Typist: NSObject {
     
     open var scrollView: UIScrollView? {
         didSet {
+            scrollView?.keyboardDismissMode = .interactive // allows dismissing keyboard interactively
             scrollView?.addGestureRecognizer(panGesture)
         }
+    }
+    public func toolbar(scrollView: UIScrollView) -> Self {
+        self.scrollView = scrollView
+        return self
     }
     private var _options: KeyboardOptions?
     private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
