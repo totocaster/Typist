@@ -183,32 +183,35 @@ public class Typist: NSObject {
             scrollView?.addGestureRecognizer(panGesture)
         }
     }
+    
     private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
         recognizer.delegate = self
         return recognizer
     }()
+    
     private var _options: KeyboardOptions?
+    
     public func toolbar(scrollView: UIScrollView) -> Self {
         self.scrollView = scrollView
         return self
     }
+    
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
             let options = _options,
             case .changed = recognizer.state,
             let view = recognizer.view,
             let window = UIApplication.shared.windows.first
-        else { return }
+            else { return }
         
         let location = recognizer.location(in: view)
         let absoluteLocation = view.convert(location, to: window)
         var frame = options.endFrame
-        frame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
-        frame.size.height = UIScreen.main.bounds.height - frame.origin.y
+        frame.origin.y = max(absoluteLocation.y, window.bounds.height - frame.height)
+        frame.size.height = window.bounds.height - frame.origin.y
         let event = KeyboardOptions(belongsToCurrentApp: options.belongsToCurrentApp, startFrame: options.startFrame, endFrame: frame, animationCurve: options.animationCurve, animationDuration: options.animationDuration)
         callbacks[.willChangeFrame]?(event)
-        callbacks[.didChangeFrame]?(event)
     }
 }
 
