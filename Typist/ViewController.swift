@@ -38,16 +38,29 @@ class ViewController: UIViewController {
                 UIView.animate(withDuration: 0) {
                     self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
                     self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
-                    self.view.layoutIfNeeded()
+                    self.toolbar.layoutIfNeeded()
                 }
-                self.title = options.endFrame.debugDescription
+                self.navigationItem.prompt = options.endFrame.debugDescription
+            }
+            .on(event: .willHide) { [unowned self] options in
+                // .willHide is used in cases when keyboard is *not* dismiss interactively.
+                // e.g. when `.resignFirstResponder()` is called on textField.
+                self.bottom.constant = 0
+                UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
+                    self.tableView.contentInset.bottom = self.toolbar.bounds.height
+                    self.tableView.scrollIndicatorInsets.bottom = self.toolbar.bounds.height
+                    self.toolbar.layoutIfNeeded()
+                }, completion: nil)
             }
             .start()
+    
+        self.navigationItem.prompt = "Keybaord frame will appear here."
+        self.title = "Typist Demo"
     }
     
 }
 
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
@@ -57,6 +70,11 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.textLabel?.text = "Cell \(indexPath.row)"
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.textField.resignFirstResponder()
     }
     
 }
