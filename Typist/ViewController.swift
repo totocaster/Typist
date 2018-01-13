@@ -40,6 +40,7 @@ class ViewController: UIViewController {
                     self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
                     self.view.layoutIfNeeded()
                 }
+                self.title = options.endFrame.debugDescription
             }
             .start()
     }
@@ -54,7 +55,7 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
-        cell.textLabel?.text = "\(indexPath.row)"
+        cell.textLabel?.text = "Cell \(indexPath.row)"
         return cell
     }
     
