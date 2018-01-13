@@ -153,40 +153,66 @@ public class Typist: NSObject {
     // MARK: - UIKit notification handling
     
     @objc internal func keyboardWillShow(note: Notification) {
-        if let callback = callbacks[.willShow] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.willShow]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     @objc internal func keyboardDidShow(note: Notification) {
-        if let callback = callbacks[.didShow] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.didShow]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     
     @objc internal func keyboardWillHide(note: Notification) {
-        if let callback = callbacks[.willHide] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.willHide]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     @objc internal func keyboardDidHide(note: Notification) {
-        if let callback = callbacks[.didHide] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.didHide]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
     }
     
     @objc internal func keyboardWillChangeFrame(note: Notification) {
-        if let callback = callbacks[.willChangeFrame] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
-        }
+        callbacks[.willChangeFrame]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        _options = keyboardOptions(fromNotificationDictionary: note.userInfo)
     }
     @objc internal func keyboardDidChangeFrame(note: Notification) {
-        if let callback = callbacks[.didChangeFrame] {
-            callback(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        callbacks[.didChangeFrame]?(keyboardOptions(fromNotificationDictionary: note.userInfo))
+        _options = keyboardOptions(fromNotificationDictionary: note.userInfo)
+    }
+    
+    // MARK: - Input Accessory View Support
+    
+    private var scrollView: UIScrollView? {
+        didSet {
+            scrollView?.keyboardDismissMode = .interactive // allows dismissing keyboard interactively
+            scrollView?.addGestureRecognizer(panGesture)
         }
+    }
+    private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
+        recognizer.delegate = self
+        return recognizer
+    }()
+    private var _options: KeyboardOptions?
+    public func toolbar(scrollView: UIScrollView) -> Self {
+        self.scrollView = scrollView
+        return self
+    }
+    @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
+        guard
+            let options = _options,
+            case .changed = recognizer.state,
+            let view = recognizer.view,
+            let window = UIApplication.shared.windows.first
+        else { return }
+        
+        let location = recognizer.location(in: view)
+        let absoluteLocation = view.convert(location, to: window)
+        var frame = options.endFrame
+        frame.origin.y = max(absoluteLocation.y, UIScreen.main.bounds.height - frame.height)
+        frame.size.height = UIScreen.main.bounds.height - frame.origin.y
+        let event = KeyboardOptions(belongsToCurrentApp: options.belongsToCurrentApp, startFrame: options.startFrame, endFrame: frame, animationCurve: options.animationCurve, animationDuration: options.animationDuration)
+        callbacks[.willChangeFrame]?(event)
+        callbacks[.didChangeFrame]?(event)
     }
 }
 
-fileprivate extension Typist.KeyboardEvent {
+private extension Typist.KeyboardEvent {
     var notification: NSNotification.Name {
         get {
             switch self {
@@ -224,4 +250,16 @@ fileprivate extension Typist.KeyboardEvent {
             }
         }
     }
+}
+
+extension Typist: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return scrollView?.keyboardDismissMode == .interactive
+    }
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer === panGesture
+    }
+    
 }
