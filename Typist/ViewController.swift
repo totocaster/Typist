@@ -30,15 +30,18 @@ class ViewController: UIViewController {
         textField.inputAccessoryView = UIView(frame: toolbar.bounds)
         
         // keyboard frame observer
-        keyboard.toolbar(scrollView: tableView).on(event: .willChangeFrame) { [unowned self] options in
-            let height = options.endFrame.height
-            self.bottom.constant = max(0, height - self.toolbar.bounds.height)
-            UIView.animate(withDuration: 0) {
-                self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
-                self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
-                self.view.layoutIfNeeded()
+        keyboard
+            .toolbar(scrollView: tableView)
+            .on(event: .willChangeFrame) { [unowned self] options in
+                let height = options.endFrame.height
+                self.bottom.constant = max(0, height - self.toolbar.bounds.height)
+                UIView.animate(withDuration: 0) {
+                    self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
+                    self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
+                    self.view.layoutIfNeeded()
+                }
             }
-        }.start()
+            .start()
     }
     
 }
