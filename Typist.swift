@@ -92,6 +92,12 @@ public class Typist: NSObject {
         return self
     }
     
+    // TODO: add docs
+    public func toolbar(scrollView: UIScrollView) -> Self {
+        self.scrollView = scrollView
+        return self
+    }
+    
     /// Starts listening to events and calling corresponding events handlers.
     public func start() {
         let center = NotificationCenter.`default`
@@ -103,7 +109,6 @@ public class Typist: NSObject {
     
     /// Stops listening to keyboard events. Callback closures won't be cleared, thus calling `start()` again will resume calling previously set event handlers.
     public func stop() {
-        // TODO: this needs a bit more work
         let center = NotificationCenter.default
         center.removeObserver(self)
     }
@@ -111,6 +116,10 @@ public class Typist: NSObject {
     /// Clears all event handlers. Equivalent of setting `nil` for all events.
     public func clear() {
         callbacks.removeAll()
+    }
+    
+    deinit {
+        stop()
     }
     
     // MARK: - How sausages are made
@@ -191,11 +200,6 @@ public class Typist: NSObject {
     }()
     
     private var _options: KeyboardOptions?
-    
-    public func toolbar(scrollView: UIScrollView) -> Self {
-        self.scrollView = scrollView
-        return self
-    }
     
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
