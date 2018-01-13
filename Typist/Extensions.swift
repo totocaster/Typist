@@ -12,13 +12,13 @@ extension UIViewAnimationOptions {
     init(curve: UIViewAnimationCurve) {
         switch curve {
         case .easeIn:
-            self = .curveEaseIn
+            self = [.curveEaseIn]
         case .easeOut:
-            self = .curveEaseOut
+            self = [.curveEaseOut]
         case .easeInOut:
-            self = .curveEaseInOut
+            self = [.curveEaseInOut]
         case .linear:
-            self = .curveLinear
+            self = [.curveLinear]
         }
     }
 }
