@@ -46,12 +46,12 @@ let keyboard = Typist()
 func configureKeyboard() {
 
     keyboard
-        .toolbar(scrollView: tableView) // enables interactive dismissal
+        .toolbar(scrollView: tableView) // Enables interactive dismissal
         .on(event: .willChangeFrame) { (options) in
             // You are responsible animating inputAccessoryView
         }
         .on(event: .willHide)  { (options) in
-            // triggered when keyboard is dismissed non-interactively.
+            // Triggered when keyboard is dismissed non-interactively.
         }
         .start()
 
