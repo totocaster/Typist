@@ -36,6 +36,32 @@ You _must_ call `start()` for callbacks to be triggered. Calling `stop()` on ins
 
 To remove all event callbacks, call `clear()`.
 
+#### Interactivity and `inputAccessoryView`
+
+You can dismiss keyboard interactively when using Typist with `UIScrollView` instances.
+
+```swift
+let keyboard = Typist()
+
+func configureKeyboard() {
+
+    keyboard
+        .toolbar(scrollView: tableView) // enables interactive dismissal
+        .on(event: .willChangeFrame) { (options) in
+            // You are responsible animating inputAccessoryView
+        }
+        .on(event: .willHide)  { (options) in
+            // triggered when keyboard is dismissed non-interactively.
+        }
+        .start()
+
+}
+```
+
+`.on(event: .willChangeFrame, do: {...})` will update as frequently as keyboard frame changes due to UIScrollView scrolling. It is good practice to implement `.willHide` portion as well since keyboard might be dismissed non-interactively, for example, using `resignFirstResponder()`.
+
+Example from above is [implemented in demo app](Typist/ViewController.swift).
+
 #### On Singleton Usage
 
 Usage of `shared` singleton, considered to be OK for convenient access to instance. However, it is strongly recommended to instantiate dedicated `Typist()` for each usage (in `UIViewController`, most likely). **Do not use singleton** when two or more objects using `Typist.shared` are presented on screen simultaneously, as it will cause one of the controllers to fail receiving keyboard events.
