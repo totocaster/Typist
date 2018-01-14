@@ -34,8 +34,8 @@ class ViewController: UIViewController {
             .toolbar(scrollView: tableView)
             .on(event: .willChangeFrame) { [unowned self] options in
                 let height = options.endFrame.height
-                self.bottom.constant = max(0, height - self.toolbar.bounds.height)
                 UIView.animate(withDuration: 0) {
+                    self.bottom.constant = max(0, height - self.toolbar.bounds.height)
                     self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
                     self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
                     self.toolbar.layoutIfNeeded()
@@ -45,8 +45,8 @@ class ViewController: UIViewController {
             .on(event: .willHide) { [unowned self] options in
                 // .willHide is used in cases when keyboard is *not* dismiss interactively.
                 // e.g. when `.resignFirstResponder()` is called on textField.
-                self.bottom.constant = 0
                 UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
+                    self.bottom.constant = 0
                     self.tableView.contentInset.bottom = self.toolbar.bounds.height
                     self.tableView.scrollIndicatorInsets.bottom = self.toolbar.bounds.height
                     self.toolbar.layoutIfNeeded()
