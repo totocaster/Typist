@@ -186,20 +186,20 @@ public class Typist: NSObject {
     
     // MARK: - Input Accessory View Support
     
-    private var scrollView: UIScrollView? {
+    fileprivate var scrollView: UIScrollView? {
         didSet {
             scrollView?.keyboardDismissMode = .interactive // allows dismissing keyboard interactively
             scrollView?.addGestureRecognizer(panGesture)
         }
     }
     
-    private lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
+    fileprivate lazy var panGesture: UIPanGestureRecognizer = { [unowned self] in
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
         recognizer.delegate = self
         return recognizer
     }()
     
-    private var _options: KeyboardOptions?
+    fileprivate var _options: KeyboardOptions?
     
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
         guard
