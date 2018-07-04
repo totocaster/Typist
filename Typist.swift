@@ -202,18 +202,44 @@ public class Typist: NSObject {
     fileprivate var _options: KeyboardOptions?
     
     @IBAction func handlePanGestureRecognizer(recognizer: UIPanGestureRecognizer) {
+        var useWindowCoordinates = true
+        var window: UIWindow?
+        var bounds: CGRect = .zero
+        
+        // check to see if we can access the UIApplication.sharedApplication property. If not, due to being in an extension context where sharedApplication isn't
+        // available, grab the screen bounds and use the screen to determine the touch's absolute location.
+        let sharedApplicationSelector = NSSelectorFromString("sharedApplication")
+        if let applicationClass = NSClassFromString("UIApplication"), applicationClass.responds(to: sharedApplicationSelector) {
+            if let application = UIApplication.perform(sharedApplicationSelector).takeUnretainedValue() as? UIApplication, let appWindow = application.windows.first {
+                window = appWindow
+                bounds = appWindow.bounds
+            }
+        }
+        else {
+            useWindowCoordinates = false
+            bounds = UIScreen.main.bounds
+        }
+    
         guard
             let options = _options,
             case .changed = recognizer.state,
-            let view = recognizer.view,
-            let window = UIApplication.shared.windows.first
+            let view = recognizer.view
             else { return }
         
         let location = recognizer.location(in: view)
-        let absoluteLocation = view.convert(location, to: window)
+        
+        var absoluteLocation: CGPoint
+        
+        if useWindowCoordinates {
+            absoluteLocation = view.convert(location, to: window)
+        }
+        else {
+            absoluteLocation = view.convert(location, to: UIScreen.main.coordinateSpace)
+        }
+        
         var frame = options.endFrame
-        frame.origin.y = max(absoluteLocation.y, window.bounds.height - frame.height)
-        frame.size.height = window.bounds.height - frame.origin.y
+        frame.origin.y = max(absoluteLocation.y, bounds.height - frame.height)
+        frame.size.height = bounds.height - frame.origin.y
         let event = KeyboardOptions(belongsToCurrentApp: options.belongsToCurrentApp, startFrame: options.startFrame, endFrame: frame, animationCurve: options.animationCurve, animationDuration: options.animationDuration)
         callbacks[.willChangeFrame]?(event)
     }
