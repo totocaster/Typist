@@ -87,6 +87,7 @@ public class Typist: NSObject {
     /// - parameter event: Event on which callback should be executed.
     /// - parameter do: Closure of code which will be executed on keyboard `event`.
     /// - returns: `Self` for convenience so many `on` functions can be chained.
+    @discardableResult
     public func on(event: KeyboardEvent, do callback: TypistCallback?) -> Self {
         callbacks[event] = callback
         return self
