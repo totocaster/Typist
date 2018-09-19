@@ -51,7 +51,7 @@ public class Typist: NSObject {
         public let endFrame: CGRect
         
         /// Constant that defines how the keyboard will be animated onto or off the screen.
-        public let animationCurve: UIViewAnimationCurve
+        public let animationCurve: UIView.AnimationCurve
         
         /// Identifies the duration of the animation in seconds.
         public let animationDuration: Double
@@ -130,29 +130,29 @@ public class Typist: NSObject {
     internal func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
         var currentApp = true
         if #available(iOS 9.0, *) {
-            if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
+            if let value = (userInfo?[UIResponder.keyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
                 currentApp = value
             }
         }
         
         var endFrame = CGRect()
-        if let value = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let value = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             endFrame = value
         }
         
         var startFrame = CGRect()
-        if let value = (userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let value = (userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             startFrame = value
         }
         
-        var animationCurve = UIViewAnimationCurve.linear
-        if let index = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
-            let value = UIViewAnimationCurve(rawValue:index) {
+        var animationCurve = UIView.AnimationCurve.linear
+        if let index = (userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
+            let value = UIView.AnimationCurve(rawValue:index) {
             animationCurve = value
         }
         
         var animationDuration: Double = 0.0
-        if let value = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
+        if let value = (userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
             animationDuration = value
         }
         
@@ -251,17 +251,17 @@ private extension Typist.KeyboardEvent {
         get {
             switch self {
             case .willShow:
-                return .UIKeyboardWillShow
+                return UIResponder.keyboardWillShowNotification
             case .didShow:
-                return .UIKeyboardDidShow
+                return UIResponder.keyboardDidShowNotification
             case .willHide:
-                return .UIKeyboardWillHide
+                return UIResponder.keyboardWillHideNotification
             case .didHide:
-                return .UIKeyboardDidHide
+                return UIResponder.keyboardDidHideNotification
             case .willChangeFrame:
-                return .UIKeyboardWillChangeFrame
+                return UIResponder.keyboardWillChangeFrameNotification
             case .didChangeFrame:
-                return .UIKeyboardDidChangeFrame
+                return UIResponder.keyboardDidChangeFrameNotification
             }
         }
     }
