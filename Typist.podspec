@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
   s.description  = <<-DESC
     Typist is a small, drop-in Swift UIKit keyboard manager for iOS apps.
-    It helps you manage keyboard's screen presence and behavior without 
+    It helps you manage keyboard's screen presence and behavior without
     notification center and Objective-C.
                    DESC
 
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.social_media_url   = "http://twitter.com/totocaster"
 
   s.platform     = :ios, "8.0"
-
+  s.swift_version = '4.2'
   s.source       = { :git => "https://github.com/totocaster/Typist.git", :tag => "1.3" }
 
   s.source_files = 'Typist.swift'
