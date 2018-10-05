@@ -55,6 +55,20 @@ public class Typist: NSObject {
         
         /// Identifies the duration of the animation in seconds.
         public let animationDuration: Double
+     
+        /// Maps the animationCurve to it's respective `UIView.AnimationOptions` value.
+        public var animationOptions: UIView.AnimationOptions {
+            switch self.animationCurve {
+                case UIView.AnimationCurve.easeIn:
+                    return UIView.AnimationOptions.curveEaseIn
+                case UIView.AnimationCurve.easeInOut:
+                    return UIView.AnimationOptions.curveEaseInOut
+                case UIView.AnimationCurve.easeOut:
+                    return UIView.AnimationOptions.curveEaseOut
+                case UIView.AnimationCurve.linear:
+                    return UIView.AnimationOptions.curveLinear
+            }
+        }
     }
     
     /// TypistCallback
