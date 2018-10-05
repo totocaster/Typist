@@ -73,8 +73,9 @@ Every event callback has a parameter of `Typist.KeyboardOptions` type. It is an 
 * **`belongsToCurrentApp`** — `Bool` that identifies whether the keyboard belongs to the current app. With multitasking on iPad, all visible apps are notified when the keyboard appears and disappears. The value is `true` for the app that caused the keyboard to appear and `false` for any other apps.
 * **`startFrame`** — `CGRect` that identifies the start frame of the keyboard in screen coordinates. These coordinates do not take into account any rotation factors applied to the view’s contents as a result of interface orientation changes. Thus, you may need to convert the rectangle to view coordinates (using the `convert(CGRect, from: UIView?)` method) before using it.
 * **`endFrame`** — `CGRect` that identifies the end frame of the keyboard in screen coordinates. These coordinates do not take into account any rotation factors applied to the view’s contents as a result of interface orientation changes. Thus, you may need to convert the rectangle to view coordinates (using the `convert(CGRect, from: UIView?)` method) before using it.
-* **`animationCurve`** — `UIViewAnimationCurve` constant that defines how the keyboard will be animated onto or off the screen.
+* **`animationCurve`** — `UIView.AnimationCurve` constant that defines how the keyboard will be animated onto or off the screen.
 * **`animationDuration`** — `Double` that identifies the duration of the animation in seconds.
+* **`animationOptions`** — `UIView.AnimationOptions` helper property that maps the `animationCurve` to it's respective `UIView.AnimationOptions` value. Usefull when performming view animations using `UIView.animate(...`.  
 
 ### Events
 
@@ -85,7 +86,7 @@ Following keyboard events are supported:
 * `willHide`
 * `didHide`
 * `willChangeFrame`
-* `didChangeFrame`
+* `didChangeFrame` – e.g. when keyboard is dynamically dismissed from scroll view interaction.
 
 If you declare two closures on same event, only latter will be executed.
 
