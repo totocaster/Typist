@@ -55,18 +55,18 @@ public class Typist: NSObject {
         
         /// Identifies the duration of the animation in seconds.
         public let animationDuration: Double
-     
+        
         /// Maps the animationCurve to it's respective `UIView.AnimationOptions` value.
         public var animationOptions: UIView.AnimationOptions {
             switch self.animationCurve {
-                case UIView.AnimationCurve.easeIn:
-                    return UIView.AnimationOptions.curveEaseIn
-                case UIView.AnimationCurve.easeInOut:
-                    return UIView.AnimationOptions.curveEaseInOut
-                case UIView.AnimationCurve.easeOut:
-                    return UIView.AnimationOptions.curveEaseOut
-                case UIView.AnimationCurve.linear:
-                    return UIView.AnimationOptions.curveLinear
+            case UIView.AnimationCurve.easeIn:
+                return UIView.AnimationOptions.curveEaseIn
+            case UIView.AnimationCurve.easeInOut:
+                return UIView.AnimationOptions.curveEaseInOut
+            case UIView.AnimationCurve.easeOut:
+                return UIView.AnimationOptions.curveEaseOut
+            case UIView.AnimationCurve.linear:
+                return UIView.AnimationOptions.curveLinear
             }
         }
     }
@@ -144,29 +144,29 @@ public class Typist: NSObject {
     internal func keyboardOptions(fromNotificationDictionary userInfo: [AnyHashable : Any]?) -> KeyboardOptions {
         var currentApp = true
         if #available(iOS 9.0, *) {
-            if let value = (userInfo?[UIResponder.keyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
+            if let value = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? NSNumber)?.boolValue {
                 currentApp = value
             }
         }
         
         var endFrame = CGRect()
-        if let value = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let value = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             endFrame = value
         }
         
         var startFrame = CGRect()
-        if let value = (userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let value = (userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             startFrame = value
         }
         
         var animationCurve = UIView.AnimationCurve.linear
-        if let index = (userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
+        if let index = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
             let value = UIView.AnimationCurve(rawValue:index) {
             animationCurve = value
         }
         
         var animationDuration: Double = 0.0
-        if let value = (userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
+        if let value = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
             animationDuration = value
         }
         
@@ -212,7 +212,7 @@ public class Typist: NSObject {
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer))
         recognizer.delegate = self
         return recognizer
-    }()
+        }()
     
     fileprivate var _options: KeyboardOptions?
     
@@ -234,7 +234,7 @@ public class Typist: NSObject {
             useWindowCoordinates = false
             bounds = UIScreen.main.bounds
         }
-    
+        
         guard
             let options = _options,
             case .changed = recognizer.state,
@@ -265,17 +265,17 @@ private extension Typist.KeyboardEvent {
         get {
             switch self {
             case .willShow:
-                return UIResponder.keyboardWillShowNotification
+                return .UIKeyboardWillShow
             case .didShow:
-                return UIResponder.keyboardDidShowNotification
+                return .UIKeyboardDidShow
             case .willHide:
-                return UIResponder.keyboardWillHideNotification
+                return .UIKeyboardWillHide
             case .didHide:
-                return UIResponder.keyboardDidHideNotification
+                return .UIKeyboardDidHide
             case .willChangeFrame:
-                return UIResponder.keyboardWillChangeFrameNotification
+                return .UIKeyboardWillChangeFrame
             case .didChangeFrame:
-                return UIResponder.keyboardDidChangeFrameNotification
+                return .UIKeyboardDidChangeFrame
             }
         }
     }
