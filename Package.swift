@@ -10,7 +10,9 @@ let package = Package(
     targets: [
         .target(
             name: "Typist",
-            path: "Typist.swift"
+            path: ".",
+            exclude: ["Typist"],
+            sources: "Typist.swift"
         )
     ]
 )
