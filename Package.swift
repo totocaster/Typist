@@ -12,7 +12,7 @@ let package = Package(
             name: "Typist",
             path: ".",
             exclude: ["Typist"],
-            sources: "Typist.swift"
+            sources: ["Typist.swift"]
         )
     ]
 )
