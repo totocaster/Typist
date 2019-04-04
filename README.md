@@ -119,7 +119,7 @@ Create a `Cartfile` that lists the framework and run `carthage update`. Follow t
 github "totocaster/Typist"
 ```
 
-### Accio
+#### Accio
 
 Initialize your project with [Accio](https://github.com/JamitLabs/Accio) using the `init` command.
 
