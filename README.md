@@ -119,6 +119,29 @@ Create a `Cartfile` that lists the framework and run `carthage update`. Follow t
 github "totocaster/Typist"
 ```
 
+### Accio
+
+Initialize your project with [Accio](https://github.com/JamitLabs/Accio) using the `init` command.
+
+Add the following to your Package.swift:
+
+```swift
+.package(url: "https://github.com/totocaster/Typist.git", .upToNextMajor(from: "1.3.2")),
+```
+
+Next, add `Typist` to your App targets dependencies like so:
+
+```swift
+.target(
+    name: "App",
+    dependencies: [
+        "Typist",
+    ]
+),
+```
+
+Then run `accio update`.
+
 #### Manually
 Download and drop ```Typist.swift``` in your project.
 
