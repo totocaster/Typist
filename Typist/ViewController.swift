@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             .on(event: .willHide) { [unowned self] options in
                 // .willHide is used in cases when keyboard is *not* dismiss interactively.
                 // e.g. when `.resignFirstResponder()` is called on textField.
-                UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIViewAnimationOptions(curve: options.animationCurve), animations: {
+                UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIView.AnimationOptions(curve: options.animationCurve), animations: {
                     self.bottom.constant = 0
                     self.tableView.contentInset.bottom = self.toolbar.bounds.height
                     self.tableView.scrollIndicatorInsets.bottom = self.toolbar.bounds.height

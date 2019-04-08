@@ -313,3 +313,24 @@ extension Typist: UIGestureRecognizerDelegate {
     }
     
 }
+
+
+// MARK: UIView extensions (convenience)
+
+extension UIView.AnimationOptions {
+    public init(curve: UIView.AnimationCurve) {
+        switch curve {
+        case .easeIn:
+            self = [.curveEaseIn]
+        case .easeOut:
+            self = [.curveEaseOut]
+        case .easeInOut:
+            self = [.curveEaseInOut]
+        case .linear:
+            self = [.curveLinear]
+        @unknown default:
+            self = [.curveLinear]
+        }
+    }
+}
+
