@@ -126,7 +126,7 @@ Initialize your project with [Accio](https://github.com/JamitLabs/Accio) using t
 Add the following to your Package.swift:
 
 ```swift
-.package(url: "https://github.com/totocaster/Typist.git", .upToNextMajor(from: "1.3.2")),
+.package(url: "https://github.com/totocaster/Typist.git", .upToNextMajor(from: "1.4.2")),
 ```
 
 Next, add `Typist` to your App targets dependencies like so:
