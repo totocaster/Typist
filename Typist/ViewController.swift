@@ -37,7 +37,11 @@ class ViewController: UIViewController {
                 UIView.animate(withDuration: 0) {
                     self.bottom.constant = max(0, height - self.toolbar.bounds.height)
                     self.tableView.contentInset.bottom = max(self.toolbar.bounds.height, height)
-                    self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
+                    if #available(iOS 13, *) {
+                        self.tableView.verticalScrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
+                    } else {
+                        self.tableView.scrollIndicatorInsets.bottom = max(self.toolbar.bounds.height, height)
+                    }
                     self.toolbar.layoutIfNeeded()
                 }
                 self.navigationItem.prompt = options.endFrame.debugDescription
@@ -48,7 +52,11 @@ class ViewController: UIViewController {
                 UIView.animate(withDuration: options.animationDuration, delay: 0, options: UIView.AnimationOptions(curve: options.animationCurve), animations: {
                     self.bottom.constant = 0
                     self.tableView.contentInset.bottom = self.toolbar.bounds.height
-                    self.tableView.scrollIndicatorInsets.bottom = self.toolbar.bounds.height
+                    if #available(iOS 13, *) {
+                        self.tableView.verticalScrollIndicatorInsets.bottom = self.toolbar.bounds.height
+                    } else {
+                        self.tableView.scrollIndicatorInsets.bottom = self.toolbar.bounds.height
+                    }
                     self.toolbar.layoutIfNeeded()
                 }, completion: nil)
             }
