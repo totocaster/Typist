@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Typist",
     platforms: [
-        // .iOS(.v8),
+        .iOS(.v8),
     ],
     products: [
         .library(
