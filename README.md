@@ -1,6 +1,6 @@
 # Typist
 
-![Swift Version](https://img.shields.io/badge/swift-4.2-orange.svg?style=flat)
+![Swift Version](https://img.shields.io/badge/swift-5-orange.svg?style=flat)
 [![Platform](https://img.shields.io/cocoapods/p/Typist.svg?style=flat)](http://cocoapods.org/pods/Typist)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Typist.svg)](https://img.shields.io/cocoapods/v/Typist.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/totocaster/Typist)
