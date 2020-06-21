@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Typist",
     platforms: [
-        .iOS(.v8),
+        .iOS(.v10),
     ],
     products: [
         .library(
@@ -15,7 +15,7 @@ let package = Package(
         .target(
             name: "Typist",
             path: ".",
-            exclude: ["Typist"],
+            exclude: ["./Typist"],
             sources: ["Typist.swift"]),
     ],
     swiftLanguageVersions: [.v5]
