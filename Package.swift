@@ -1,10 +1,10 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 import PackageDescription
 
 let package = Package(
     name: "Typist",
     platforms: [
-        .iOS(.v8),
+        .iOS(.v10),
     ],
     products: [
         .library(
@@ -14,9 +14,7 @@ let package = Package(
     targets: [
         .target(
             name: "Typist",
-            path: ".",
-            exclude: ["Typist"],
-            sources: ["Typist.swift"]),
+            exclude: ["Typist-Demo"]),
     ],
     swiftLanguageVersions: [.v5]
 )
